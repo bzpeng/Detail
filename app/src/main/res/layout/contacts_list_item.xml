@@ -6,6 +6,7 @@
     android:background="#dddddd">
 
     <LinearLayout
+        android:id="@+id/topLL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -45,6 +46,27 @@
 
         </LinearLayout>
 
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/bottomLL"
+        android:layout_below="@id/topLL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/viewContactButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/viewContact"/>
+        <Button
+            android:id="@+id/addConvoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/addConvo"/>
     </LinearLayout>
 
 </RelativeLayout>

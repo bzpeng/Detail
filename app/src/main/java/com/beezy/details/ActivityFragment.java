@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 public class ActivityFragment extends AppCompatActivity {
 
-    private NewContactFragment fragment;
+    private NewConvoFragment fragment;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -15,7 +15,7 @@ public class ActivityFragment extends AppCompatActivity {
 
         FragmentManager fm = getSupportFragmentManager();
 
-            fragment = NewContactFragment.newInstance();
+            fragment = NewConvoFragment.newInstance();
             fm.beginTransaction().add(fragment, "newContact")
                     .commit();
         }

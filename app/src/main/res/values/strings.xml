@@ -6,4 +6,6 @@
     <string name="save_setting">SAVE</string>
     <string name="action_settings">Settings</string>
     <string name="new_contact">New Contact</string>
+    <string name="addConvo">Add Conversation</string>
+    <string name="viewContact">View Contact</string>
 </resources>

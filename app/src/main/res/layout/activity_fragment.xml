@@ -16,6 +16,6 @@
         android:id="@+id/new_contact_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        class="com.beezy.details.NewContactFragment"
+        class="com.beezy.details.NewConvoFragment"
         tools:layout="@layout/add_contact" />
 </LinearLayout>

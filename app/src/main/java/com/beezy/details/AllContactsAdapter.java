@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,9 +34,19 @@ public class AllContactsAdapter extends RecyclerView.Adapter<AllContactsAdapter.
 
     @Override
     public void onBindViewHolder(ContactsViewHolder holder, int position) {
-        Contact mContact = contactList.get(position);
+        final Contact mContact = contactList.get(position);
         holder.tvContactNumber.setText(mContact.getContactNumber());
         holder.tvContactName.setText(mContact.getContactName());
+        holder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, mContact.getContactId());
+//                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//                mContext.startActivity(intent);
+                LinearLayout mlinearLayout = (LinearLayout) v.findViewById(R.id.bottomLL);
+                mlinearLayout.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override
@@ -50,21 +61,14 @@ public class AllContactsAdapter extends RecyclerView.Adapter<AllContactsAdapter.
         ImageView ivImage;
         TextView tvContactName;
         TextView tvContactNumber;
+        View view;
 
         public ContactsViewHolder(View itemView, final Context context) {
             super(itemView);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //Toast.makeText(context, "sup fam", Toast.LENGTH_LONG).show();
-                    Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, 1);
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                    context.startActivity(intent);
-                }
-            });
             ivImage = (ImageView) itemView.findViewById(R.id.ivContactImage);
             tvContactName = (TextView) itemView.findViewById(R.id.tvContactName);
             tvContactNumber = (TextView) itemView.findViewById(R.id.tvPhoneNumber);
+            this.view = itemView;
         }
 
         @Override

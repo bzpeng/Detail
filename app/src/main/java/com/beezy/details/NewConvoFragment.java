@@ -3,7 +3,6 @@ package com.beezy.details;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -11,12 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-public class NewContactFragment extends Fragment {
+public class NewConvoFragment extends Fragment {
 
     View rootView;
 
-    public static NewContactFragment newInstance() {
-        NewContactFragment fragment = new NewContactFragment();
+    public static NewConvoFragment newInstance() {
+        NewConvoFragment fragment = new NewConvoFragment();
         return fragment;
     }
 

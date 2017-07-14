@@ -2,6 +2,7 @@ package com.beezy.details;
 
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -33,41 +34,33 @@ public class ContactListFragment extends Fragment {
     RecyclerView mRecyclerView;
     List<Contact> contactsList;
 
+    public static ContactListFragment getInstance(List<Contact> contactsList) {
+        ContactListFragment fragment = new ContactListFragment();
+        fragment.contactsList = contactsList;
+        return fragment;
+    }
 
    // private class AllContactsAdapter extends RecyclerView.Adapter<>
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.contact_fragment, container, false);
         return rootView;
     }
-
-    private void getAllContacts() {
-        contactsList = new ArrayList<>();
-        Contact mContact;
-
-        ContentResolver mContentResolver = getActivity().getContentResolver();
-        Cursor cursor = mContentResolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
-        if(cursor.getCount() > 0) {
-            while(cursor.moveToNext()) {
-                int hasPhoneNumber = Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)));
-                if (hasPhoneNumber > 0) {
-                    String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
-                    String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                    mContact = new Contact(name);
-                    contactsList.add(mContact);
-                }
-            }
-        }
-    }
+    
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getAllContacts();
+
+//        for(Contact c: contactsList) {
+//            Log.d("Contact Name: ", c.getContactName());
+//        }
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.contacts_list);
         AllContactsAdapter adapter = new AllContactsAdapter(contactsList, getContext());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(adapter);
+
+        //Uri uri = ContentUris.withAppendedId()
 
     }
 

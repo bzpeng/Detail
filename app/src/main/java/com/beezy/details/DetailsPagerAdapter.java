@@ -1,12 +1,16 @@
 package com.beezy.details;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 public class DetailsPagerAdapter extends FragmentStatePagerAdapter {
-    public DetailsPagerAdapter(FragmentManager fm) {
+    ContactList cl;
+
+    public DetailsPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
+        cl = ContactList.getInstance(context);
     }
 
     @Override
@@ -15,7 +19,7 @@ public class DetailsPagerAdapter extends FragmentStatePagerAdapter {
 
         switch(position) {
             case 0:
-                fragment = new ContactListFragment();
+                fragment = ContactListFragment.getInstance(cl.contactList);
                 break;
             case 1:
                 fragment = new ContactListFragment();

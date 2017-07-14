@@ -23,9 +23,17 @@ public class Contact {
     private String ContactImage;
     private String ContactName;
     private String ContactNumber;
+    private long ContactId;
 
-    public Contact(String name) {
-        ContactName = name;
+    public Contact() {
+    }
+
+    public long getContactId() {
+        return ContactId;
+    }
+
+    public void setContactId(long contactId) {
+        ContactId = contactId;
     }
 
     public String getContactImage() {

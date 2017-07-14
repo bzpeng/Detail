@@ -1,13 +1,19 @@
 package com.beezy.details;
 
+import android.content.ContentUris;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.net.URI;
 import java.util.List;
 
 public class AllContactsAdapter extends RecyclerView.Adapter<AllContactsAdapter.ContactsViewHolder> {
@@ -22,8 +28,7 @@ public class AllContactsAdapter extends RecyclerView.Adapter<AllContactsAdapter.
     @Override
     public ContactsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.contacts_list_item, parent, false);
-        ContactsViewHolder viewHolder = new ContactsViewHolder(v);
-        return viewHolder;
+        return new ContactsViewHolder(v, mContext);
     }
 
     @Override
@@ -46,8 +51,17 @@ public class AllContactsAdapter extends RecyclerView.Adapter<AllContactsAdapter.
         TextView tvContactName;
         TextView tvContactNumber;
 
-        public ContactsViewHolder(View itemView) {
+        public ContactsViewHolder(View itemView, final Context context) {
             super(itemView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Toast.makeText(context, "sup fam", Toast.LENGTH_LONG).show();
+                    Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, 1);
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    context.startActivity(intent);
+                }
+            });
             ivImage = (ImageView) itemView.findViewById(R.id.ivContactImage);
             tvContactName = (TextView) itemView.findViewById(R.id.tvContactName);
             tvContactNumber = (TextView) itemView.findViewById(R.id.tvPhoneNumber);

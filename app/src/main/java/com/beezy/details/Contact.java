@@ -1,28 +1,11 @@
 package com.beezy.details;
 
-import android.media.Image;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-enum phoneType {
-    MOBILE, WORK, HOME, MAIN, OTHER, CUSTOM;
-}
-public class Contact {
-//    private String mFirstName;
-//    private String mLastName;
-//    private String mNickname;
-//    private String mEmail;
-//    private String mPhone;
-//    private Image img;
-//
-//    public Contact(String firstname, String lastname, String nickname, String email, String phone) {
-//        mFirstName = firstname;
-//        mLastName = lastname;
-//        mNickname = nickname;
-//        mEmail = email;
-//        mPhone = phone;
-//    }
-    private String ContactImage;
+public class Contact implements Parcelable {
+
     private String ContactName;
-    private String ContactNumber;
     private long ContactId;
 
     public Contact() {
@@ -36,13 +19,6 @@ public class Contact {
         ContactId = contactId;
     }
 
-    public String getContactImage() {
-        return ContactImage;
-    }
-
-    public void setContactImage(String contactImage) {
-        this.ContactImage = ContactImage;
-    }
 
     public String getContactName() {
         return ContactName;
@@ -52,12 +28,33 @@ public class Contact {
         ContactName = contactName;
     }
 
-    public String getContactNumber() {
-        return ContactNumber;
+
+    protected Contact(Parcel in) {
+        ContactName = in.readString();
+        ContactId = in.readLong();
     }
 
-    public void setContactNumber(String contactNumber) {
-        ContactNumber = contactNumber;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(ContactName);
+        dest.writeLong(ContactId);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Contact> CREATOR = new Parcelable.Creator<Contact>() {
+        @Override
+        public Contact createFromParcel(Parcel in) {
+            return new Contact(in);
+        }
+
+        @Override
+        public Contact[] newArray(int size) {
+            return new Contact[size];
+        }
+    };
 }

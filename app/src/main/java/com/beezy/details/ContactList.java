@@ -2,8 +2,10 @@ package com.beezy.details;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.widget.Toast;
@@ -14,11 +16,15 @@ import java.util.List;
 
 public class ContactList {
 
+    SQLiteDatabase contactdb;
+    ContactsDatabase.ContactsDbHelper contactsdbHelper;
+
     private static ContactList instance = null;
     List<Contact> contactList = null;
     Context context = null;
 
     private ContactList(Context context){
+        contactsdbHelper = new ContactsDatabase.ContactsDbHelper(context);
         if(this.context == null) {
             this.context = context;
         }
@@ -26,6 +32,7 @@ public class ContactList {
             contactList = new ArrayList<>();
             getAllContacts();
         }
+
     }
 
     public static ContactList getInstance(Context context) {
@@ -37,33 +44,30 @@ public class ContactList {
 
     private void getAllContacts() {
 
+        contactdb = contactsdbHelper.getWritableDatabase();
         Activity mActivity = (Activity) context;
         Contact mContact;
 
+        // Creating new map of values
+        ContentValues values;
         ContentResolver mContentResolver = mActivity.getContentResolver();
         Cursor cursor = mContentResolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
         if(cursor.getCount() > 0) {
-            Toast.makeText(context, Integer.toString(cursor.getCount()),Toast.LENGTH_LONG).show();
             while(cursor.moveToNext()) {
                 mContact = new Contact();
                 String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
                 long mId = cursor.getLong(cursor.getColumnIndex(ContactsContract.Contacts._ID));
                 Log.d("Contact id: ", id);
+                Log.d("*********************", "TEST");
                 String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                mContact.setContactName(name);
-                mContact.setContactId(mId);
 
-                int hasPhoneNumber = Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)));
-                if (hasPhoneNumber > 0) {
-                    String[] mContactId = {id};
-                    Cursor phoneCursor = mContentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ? ", mContactId, null);
-                    if(phoneCursor.moveToNext()) {
-                        mContact.setContactNumber(phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
-                    }
-                }
-                contactList.add(mContact);
+                values = new ContentValues();
+                values.put(ContactsDatabase.ContactEntry.COLUMN_NAME_CONTACT_ID, id);
+                values.put(ContactsDatabase.ContactEntry.COLUMN_NAME_NAME, name);
+                long newRowId = contactdb.insert(ContactsDatabase.ContactEntry.TABLE_NAME, null, values);
             }
         }
+        cursor.close();
     }
 
 }
